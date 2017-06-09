@@ -32,7 +32,16 @@ jQuery( document ).ready( function(){
                                 subject : jQuery( "#subject" ).val().trim()
                             },
                             success : function( response ){
-                                console.log( response );
+                                response = JSON.parse( response );
+                                if ( response == "sent" ) {
+                                    if ( jQuery( "#promotator-composer #error" ).length ) { jQuery( "#promotator-composer #error" ).remove(); }
+                                    if ( jQuery( "#promotator-composer #success" ).length ) { jQuery( "#promotator-composer #success" ).remove(); }
+                                    jQuery( "#promotator-composer" ).append( "<div id='success'>It's sent!</div>" );
+
+                                    setTimeout( function(){
+                                        if ( jQuery( "#promotator-composer #success" ).length ) { jQuery( "#promotator-composer #success" ).remove(); }
+                                    }, 2000 );
+                                } else { console.log( response ); }
                             },
                             error : function( response ){}
                         } );

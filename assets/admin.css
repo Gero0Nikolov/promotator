@@ -9,6 +9,12 @@
   right: 1em;
   bottom: 1.75em;
   color: #e74c3c; }
+.promotator-composer #success {
+  display: inline-block;
+  position: absolute;
+  right: 1em;
+  bottom: 1.75em;
+  color: #2ecc71; }
 .promotator-composer .wide-fat {
   display: block;
   width: 100%; }

@@ -59,7 +59,39 @@ class PROMOTATOR {
             // Get the email template and configure it to work with the dynamicly selected posts
             $template_ = file_get_contents( plugin_dir_path( __FILE__ ) . "mailings/". $template_ );
 
-            var_dump( $template_ );
+            $post_container = explode( "<!-- post-container -->", $template_ )[1];
+            $post_container = explode( "<!-- /post-container -->", $post_container )[0];
+
+            $posts_view = "";
+            foreach ( $posts_ as $post_id ) {
+                $post_ = get_post( $post_id );
+                $post_url = get_permalink( $post_id );
+                $post_featured_image = get_the_post_thumbnail_url( $post_id, "full" );
+                $post_title = $post_->post_title;
+                $post_excerpt = wp_trim_words( $post_->post_content, 35, "..." );
+
+                $posts_view .= $post_container;
+                $posts_view = str_replace( "[link]", $post_url, $posts_view );
+                $posts_view = str_replace( "[featured-src]", $post_url, $posts_view );
+                $posts_view = str_replace( "[title]", $post_title, $posts_view );
+                $posts_view = str_replace( "[text]", $post_excerpt, $posts_view );
+            }
+
+            $clean_template = explode( "<!-- post-container -->", $template_ )[0];
+            $clean_template .= $posts_view;
+            $clean_template .= explode( "<!-- /post-container -->", $template_ )[1];
+
+            // Send the mailing to the users
+            foreach ( $users_ as $user_ ) {
+                wp_mail(
+                    $user_->data->user_email,
+                    $subject_,
+                    $clean_template,
+                    array( "Content-Type: text/html; charset=UTF-8" )
+                );
+            }
+
+            echo json_encode( "sent" );
         }
 
         die( "" );
