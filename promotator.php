@@ -81,6 +81,10 @@ class PROMOTATOR {
             $clean_template .= $posts_view;
             $clean_template .= explode( "<!-- /post-container -->", $template_ )[1];
 
+            $clean_template = str_replace( "[site-url]", get_site_url(), $clean_template );
+            $clean_template = str_replace( "[site-icon]", get_site_icon_url(), $clean_template );
+            $clean_template = str_replace( "[date]", date( "d M Y" ), $clean_template );
+        
             // Send the mailing to the users
             foreach ( $users_ as $user_ ) {
                 wp_mail(
