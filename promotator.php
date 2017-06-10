@@ -72,7 +72,7 @@ class PROMOTATOR {
 
                 $posts_view .= $post_container;
                 $posts_view = str_replace( "[link]", $post_url, $posts_view );
-                $posts_view = str_replace( "[featured-src]", $post_url, $posts_view );
+                $posts_view = str_replace( "[featured-src]", $post_featured_image, $posts_view );
                 $posts_view = str_replace( "[title]", $post_title, $posts_view );
                 $posts_view = str_replace( "[text]", $post_excerpt, $posts_view );
             }
@@ -83,8 +83,9 @@ class PROMOTATOR {
 
             $clean_template = str_replace( "[site-url]", get_site_url(), $clean_template );
             $clean_template = str_replace( "[site-icon]", get_site_icon_url(), $clean_template );
+			$clean_template = str_replace( "[site-name]", get_bloginfo( "name" ), $clean_template );
             $clean_template = str_replace( "[date]", date( "d M Y" ), $clean_template );
-        
+
             // Send the mailing to the users
             foreach ( $users_ as $user_ ) {
                 wp_mail(
